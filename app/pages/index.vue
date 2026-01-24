@@ -30,6 +30,7 @@ const joinPerson = async () => {
   loading.value = false;
 } catch (error) {
   console.error("Error joining person:", error);
+  toast.error(data.message);
 }
 }
 </script>

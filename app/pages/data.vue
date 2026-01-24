@@ -46,15 +46,15 @@ import Container from '~/components/site/Container.vue';
       </TableRow>
     </TableHeader>
     <TableBody>
-      <template v-for="{ id, time, name } in users" :key="id">
+      <template v-for="{ id, created_at, nome } in users" :key="id">
           <TableRow>
           <TableCell class="font-medium">
             {{ id }}
           </TableCell>
-          <TableCell>{{ formatDate(time) }}</TableCell>
+          <TableCell>{{ formatDate(created_at) }}</TableCell>
           <TableCell>
             <ClientOnly>
-              <AvatarName :name="name" :url="avatarUrl" />
+              <AvatarName :name="nome" :url="avatarUrl" />
             </ClientOnly>
           </TableCell>
         </TableRow>

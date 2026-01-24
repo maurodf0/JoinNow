@@ -1,14 +1,29 @@
+  import { supabase } from '../../utils/supabase'
+
 export default defineEventHandler(async (e) => {
-  const { id:number, name:string } = e.body;
+  try {  
+    const { id, name } = readBody(e);
+    console.log(id, name);
 
-  const storage = useStorage();
-  const list = (await storage.getItem('join:list')) || [];
+    const { data, error } = await supabase.from('Users').insert({ id, name });
+    if( error ) {
+      return {
+        statusCode: 500,
+        message: error.message
+      };  
+    }
 
-  list.push({ id, name, time: new Date().toISOString() });
-  await storage.setItem('join:list', list);
+    console.log(data);
 
-  return {
-    statusCode: 200,
-    message: 'Accesso registrato'
-  };
+    return {
+      statusCode: 200,
+      message: 'Accesso registrato'
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      message: (error as any).message
+    };  
+  }
 });
+
