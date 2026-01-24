@@ -38,7 +38,12 @@ import {
             {{ id }}
           </TableCell>
           <TableCell>{{ time }}</TableCell>
-          <TableCell>{{ name }}</TableCell>
+          <TableCell>{{ name }}   
+            <Avatar>
+            <AvatarImage src="https://avatars.githubusercontent.com/u/60851419?v=4" />
+            <AvatarFallback>MD</AvatarFallback>
+          </Avatar>
+</TableCell>
         </TableRow>
         </template>
     
