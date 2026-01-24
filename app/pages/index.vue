@@ -20,6 +20,7 @@ const joinPerson = async () => {
   setTimeout(() => {
     responseMessage.value = '';
   }, 4000);
+  loading.value = false;
 } catch (error) {
   console.error("Error joining person:", error);
 }
@@ -33,10 +34,10 @@ const joinPerson = async () => {
       @click="joinPerson">
         Click me
         <template v-if="loading">
-           <Spinner class="size-3 text-red" />
+           <Spinner class="size-3" />
         </template>
       </Button>
-      <Spinner />
+
       <p v-if="responseMessage" class="mt-4 text-green-600">{{ responseMessage }}</p>
     </div>
 
