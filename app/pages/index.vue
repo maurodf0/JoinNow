@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
 
-const responseMessage = ref<string>("");
 const loading = ref<boolean>(false);
 
 const joinPerson = async () => {
@@ -16,10 +16,7 @@ const joinPerson = async () => {
   })
 
   const data = await response;
-  responseMessage.value = data.message;
-  setTimeout(() => {
-    responseMessage.value = '';
-  }, 4000);
+  toast.success(data.message);
   loading.value = false;
 } catch (error) {
   console.error("Error joining person:", error);
@@ -28,7 +25,7 @@ const joinPerson = async () => {
 </script>
 
 <template>
-  <div class="grid place-items-center min-h-screen">
+  <div class="grid place-items-center justify-center min-h-screen">
     <div class="container">
       <Button 
       @click="joinPerson">
@@ -37,8 +34,6 @@ const joinPerson = async () => {
            <Spinner class="size-3" />
         </template>
       </Button>
-
-      <p v-if="responseMessage" class="mt-4 text-green-600">{{ responseMessage }}</p>
     </div>
 
   </div>
