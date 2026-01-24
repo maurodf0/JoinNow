@@ -11,6 +11,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import AvatarName from '@/components/ui/AvatarName.vue'
+import Container from '~/components/site/Container.vue';
 
   const response = await $fetch('/api/data');
   const data = await response;
@@ -21,7 +22,8 @@ import AvatarName from '@/components/ui/AvatarName.vue'
 </script>
 
 <template>
-  <div>
+  
+  <Container>
     <Table>
     <TableCaption>Logged in Users</TableCaption>
     <TableHeader>
@@ -51,5 +53,5 @@ import AvatarName from '@/components/ui/AvatarName.vue'
 
     </TableBody>
   </Table>
-  </div>
+</Container>
 </template>
