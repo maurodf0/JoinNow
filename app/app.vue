@@ -5,7 +5,8 @@ import { Toaster } from '@/components/ui/sonner'
 
 <template>
   <div>
+    <NuxtLayout>
     <NuxtPage />
-     <Toaster />
+    </NuxtLayout>
   </div>
 </template>

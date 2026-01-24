@@ -10,9 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import AvatarName from '@/components/ui/AvatarName.vue'
 
   const response = await $fetch('/api/data');
   const data = await response;
+  const avatarUrl = 'https://avatars.githubusercontent.com/u/60851419'
 
   const users = data.body;
 
@@ -32,18 +34,17 @@ import {
       </TableRow>
     </TableHeader>
     <TableBody>
-      <template v-for="{ id, time, name } in users">
+      <template v-for="{ id, time, name } in users" :key="id">
           <TableRow>
           <TableCell class="font-medium">
             {{ id }}
           </TableCell>
           <TableCell>{{ time }}</TableCell>
-          <TableCell>{{ name }}   
-            <Avatar>
-            <AvatarImage src="https://avatars.githubusercontent.com/u/60851419?v=4" />
-            <AvatarFallback>MD</AvatarFallback>
-          </Avatar>
-</TableCell>
+          <TableCell>
+            <ClientOnly>
+              <AvatarName :name="name" :url="avatarUrl" />
+            </ClientOnly>
+          </TableCell>
         </TableRow>
         </template>
     
