@@ -9,8 +9,8 @@ const joinPerson = async () => {
   const response  = $fetch('/api/join', {
     method: 'POST',
     body: {
-      id: 1,
-      name: 'Myself',
+      id: 10,
+      name: 'Salvatore De Falco',
       time: new Date().toISOString()
     }
   })

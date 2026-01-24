@@ -19,6 +19,16 @@ import Container from '~/components/site/Container.vue';
 
   const users = data.body;
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  }
+
 </script>
 
 <template>
@@ -41,7 +51,7 @@ import Container from '~/components/site/Container.vue';
           <TableCell class="font-medium">
             {{ id }}
           </TableCell>
-          <TableCell>{{ time }}</TableCell>
+          <TableCell>{{ formatDate(time) }}</TableCell>
           <TableCell>
             <ClientOnly>
               <AvatarName :name="name" :url="avatarUrl" />
@@ -53,5 +63,5 @@ import Container from '~/components/site/Container.vue';
 
     </TableBody>
   </Table>
-</Container>
+  </Container>
 </template>
