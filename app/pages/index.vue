@@ -1,18 +1,28 @@
 <script setup lang="ts">
+import type { J } from 'vue-router/dist/router-CWoNjPRp.mjs';
 import { toast } from 'vue-sonner'
+
+interface JoinPerson {
+  id: number;
+  name: string;
+}
+
+interface JoinResponse {
+  statusCode: number;
+  message: string;
+}
 
 const loading = ref<boolean>(false);
 
 const joinPerson = async () => {
   try {
   loading.value = true;
-  const response  = $fetch('/api/join', {
+  const response  = $fetch<JoinResponse>('/api/join', {
     method: 'POST',
     body: {
       id: 10,
       name: 'Salvatore De Falco',
-      time: new Date().toISOString()
-    }
+    } as JoinPerson,
   })
 
   const data = await response;

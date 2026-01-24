@@ -1,10 +1,10 @@
 export default defineEventHandler(async (e) => {
-  const { id, name, time } = await readBody(e);
+  const { id:number, name:string } = e.body;
 
   const storage = useStorage();
   const list = (await storage.getItem('join:list')) || [];
 
-  list.push({ id, name, time });
+  list.push({ id, name, time: new Date().toISOString() });
   await storage.setItem('join:list', list);
 
   return {
