@@ -1,7 +1,7 @@
 export default defineEventHandler( async (e) => {
 
-  const body = await readBody(e);
-  console.log(body);
+  const { id, name, time } = await readBody(e);
+  
 
   return {
     statusCode: 200,

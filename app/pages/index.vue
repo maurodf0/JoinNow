@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import Button from "@/components/ui/button/Button.vue"
 
-const responseMeggage = ref<string>("");
+const responseMessage = ref<string>("");
 const loading = ref<boolean>(false);
 
 const joinPerson = async () => {
@@ -17,8 +16,10 @@ const joinPerson = async () => {
   })
 
   const data = await response;
-  console.log(data);
-  responseMeggage.value = data.message;
+  responseMessage.value = data.message;
+  setTimeout(() => {
+    responseMessage.value = '';
+  }, 4000);
 } catch (error) {
   console.error("Error joining person:", error);
 }
@@ -28,9 +29,15 @@ const joinPerson = async () => {
 <template>
   <div class="grid place-items-center min-h-screen">
     <div class="container">
-      <Button @click="joinPerson">Click me</Button>
-      <p v-if="loading" class="mt-4 text-green-600">Loading...</p>
-      <p v-if="responseMeggage" class="mt-4 text-green-600">{{ responseMeggage }}</p>
+      <Button 
+      @click="joinPerson">
+        Click me
+        <template v-if="loading">
+           <Spinner class="size-3 text-red" />
+        </template>
+      </Button>
+      <Spinner />
+      <p v-if="responseMessage" class="mt-4 text-green-600">{{ responseMessage }}</p>
     </div>
 
   </div>
