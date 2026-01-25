@@ -1,34 +1,30 @@
 import { serverSupabaseClient } from '#supabase/server'
 
-export default defineEventHandler(async (e) => {
+export default defineEventHandler(async (event) => {
+  const {email, password} = await readBody(event)
 
-  const { email, password } = await readBody(e);
-  console.log(email, password);
+  if (!email || !password) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Email e password richieste'
+    })
+  }
 
-  try {
+  const supabase = await serverSupabaseClient(event)
 
-  const supabase = await serverSupabaseClient();
-  const { data, error } = await supabase.auth.signUp({ email, password });
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: password,
+  })
 
   if (error) {
-    return {
-      status: 400,
-      body: null,
-      message: error.message
-    }
+    throw createError({
+      statusCode: 400,
+      statusMessage: error.message
+    })
   }
 
   return {
-    status: 200,
-    body: data,
-    message: 'User registered successfully'
+    user: data.user,
   }
-  } catch (error) {
-    return {
-      status: 500,
-      body: error,
-      message: 'Error registering user'
-    }
-  }
-
 })
