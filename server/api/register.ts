@@ -1,6 +1,9 @@
 import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
+  try {
+    await serverSupabaseClient(event)
+  
   const {email, password} = await readBody(event)
 
   if (!email || !password) {
@@ -26,5 +29,10 @@ export default defineEventHandler(async (event) => {
 
   return {
     user: data.user,
+  }
+} catch (error) {
+    return {
+      error: error.message,
+    }
   }
 })

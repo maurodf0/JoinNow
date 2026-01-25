@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { toast } from 'vue-sonner';
 import Container from '~/components/site/Container.vue';
 import Input from '~/components/ui/input/Input.vue';
 
@@ -13,21 +14,17 @@ const state = reactive<{
 
 const registerUser = async () => {
   try {
-    const response = await $fetch('/api/register', {
+    await $fetch('/api/register', {
       method: 'POST',
       body: {
         email: state.email,
-        password: state.password
-      }
-    });
-    const data = await response.json();
-    if (data.error) throw new Error(data.error);
+        password: state.password,
+      },
+    })
 
-    toast.success('Registrazione avvenuta con successo! Controlla la tua email per la verifica.');
-
-  } catch (error) {
-    console.error('Errore durante la registrazione:', error)
-    toast.error('Errore durante la registrazione')
+    toast.success('Registrazione avvenuta con successo!')
+  } catch (error: any) {
+    toast.error(error?.statusMessage ?? 'Errore durante la registrazione')
   }
 }
 
