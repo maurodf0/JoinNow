@@ -3,8 +3,8 @@ import type { J } from 'vue-router/dist/router-CWoNjPRp.mjs';
 import { toast } from 'vue-sonner'
 
 interface JoinPerson {
-  id: number;
   name: string;
+  role: string;
 }
 
 interface JoinResponse {
@@ -16,22 +16,22 @@ const loading = ref<boolean>(false);
 
 const joinPerson = async () => {
   try {
-  loading.value = true;
-  const response  = $fetch<JoinResponse>('/api/join', {
-    method: 'POST',
-    body: {
-      id: 10,
-      name: 'Salvatore De Falco',
-    } as JoinPerson,
-  })
+    loading.value = true;
+    const data = await $fetch<JoinResponse>('/api/join', {
+      method: 'POST',
+      body: {
+        name: 'Salvatore De Falco',
+        role: 'Dirigente Movimento',
+      } as JoinPerson,
+    });
 
-  const data = await response;
-  toast.success(data.message);
-  loading.value = false;
-} catch (error) {
-  console.error("Error joining person:", error);
-  toast.error(data.message);
-}
+    toast.success(data.message);
+    loading.value = false;
+  } catch (error) {
+    console.error("Error joining person:", error);
+    toast.error((error as any).message || 'Errore durante il join');
+    loading.value = false;
+  }
 }
 </script>
 
