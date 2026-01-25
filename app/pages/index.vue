@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { J } from 'vue-router/dist/router-CWoNjPRp.mjs';
+
 import { toast } from 'vue-sonner'
 
 interface JoinPerson {

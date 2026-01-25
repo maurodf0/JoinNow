@@ -20,8 +20,8 @@ const signInWithOtp = async () => {
   })
   if (error) {
     console.error('Errore durante il sign-in:', error.message)
-    return
     toast.error(error.message)
+    return
   }
 
   if (!error) {
@@ -30,7 +30,11 @@ const signInWithOtp = async () => {
 }
 </script>
 <template>
-  <Container class="mt-4">
+  <Container class="mt-16 !max-w-[880px]">
+    <div class="flex flex-col mb-4">
+      <h1 class="text-4xl font-bold">Login to JoinNow</h1>
+      <p>Accedi con la tua email per continuare</p>
+    </div>
     <div class="flex flex-col gap-4">
       <input
         v-model="email"
@@ -44,4 +48,3 @@ const signInWithOtp = async () => {
     </div>
   </Container>
 </template>
-c
