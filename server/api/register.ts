@@ -20,6 +20,8 @@ export default defineEventHandler(async (event) => {
     password: password,
   })
 
+  console.log(data)
+
   if (error) {
     throw createError({
       statusCode: 400,

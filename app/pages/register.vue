@@ -14,18 +14,21 @@ const state = reactive<{
 
 const registerUser = async () => {
   try {
-    await $fetch('/api/register', {
-      method: 'POST',
-      body: {
+      const supabase = useSupabaseClient()
+
+const { data, error } = await supabase.auth.signUp({
         email: state.email,
         password: state.password,
-      },
-    })
+})
+if (error) {
+        toast.error(`Registration failed: ${error.message}`);
+      } else {
+        toast.success('Registration successful! Please check your email to confirm your account.');
+      }
+  } catch (err) {
+      toast.error('An unexpected error occurred. Please try again later.');
+   }
 
-    toast.success('Registrazione avvenuta con successo!')
-  } catch (error: any) {
-    toast.error(error?.statusMessage ?? 'Errore durante la registrazione')
-  }
 }
 
 </script>
