@@ -38,23 +38,23 @@ import Container from '~/components/site/Container.vue';
     <TableCaption>Logged in Users</TableCaption>
     <TableHeader>
       <TableRow>
-        <TableHead class="w-[100px]">
-          ID
+        <TableHead>
+          Ruolo
         </TableHead>
         <TableHead>Time</TableHead>
         <TableHead>Name</TableHead>
       </TableRow>
     </TableHeader>
     <TableBody>
-      <template v-for="{ id, created_at, Name } in users" :key="id">
+      <template v-for="{ role, created_at, name } in users" :key="id">
           <TableRow>
           <TableCell class="font-medium">
-            {{ id }}
+            {{ role }}
           </TableCell>
           <TableCell>{{ formatDate(created_at) }}</TableCell>
           <TableCell>
             <ClientOnly>
-              <AvatarName :name="Name" :url="avatarUrl" />
+              <AvatarName :name="name" :url="avatarUrl" />
             </ClientOnly>
           </TableCell>
         </TableRow>

@@ -2,7 +2,9 @@
 
 export default defineEventHandler(async (e) => {
   try {  
-    const { name, role } = await readBody(e);
+    const body = await readBody(e);
+    const { name, role } = body;
+    console.log('name:', name, 'role:', role);
     const { data, error } = await supabase.from('Users').insert({ name, role });
     if (error) {
       return {
