@@ -21,6 +21,9 @@ const getData = async () => {
   users.value = data.body;
 
 }
+onMounted(async () =>
+await getData()
+);
 
 
 const avatarUrl = 'https://avatars.githubusercontent.com/u/60851419'
