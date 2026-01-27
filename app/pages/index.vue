@@ -22,7 +22,7 @@ const joinPerson = async () => {
       method: 'POST',
       body: {
         name: user.value?.user_metadata?.name || 'Salvatore De Falco',
-        role: 'Dirigente Movimento',
+        role: user.value?.user_metadata?.role || 'Developer',
         email: user.value?.email || '',
       } as JoinPerson,
     });
