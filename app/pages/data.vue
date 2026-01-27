@@ -16,15 +16,19 @@ import Container from '~/components/site/Container.vue';
 const users = ref<Array<{ id: number; role: string; created_at: string; name: string }>>([]);
 
 const getData = async (page: number = 1) => {
-  const response = await $fetch('/api/data', {
+  try {
+  const data = await $fetch('/api/data', {
     query: {
       limit: 10,
       page: page
     }
   });
-  const data = await response;
+  
   users.value = data.body;
 
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 }
 onMounted(async () =>
 await getData()

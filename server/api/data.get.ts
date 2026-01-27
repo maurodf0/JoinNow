@@ -1,8 +1,20 @@
   import { supabase } from '../../utils/supabase'
 
 export default defineEventHandler(async (e) => {
-  console.log(e)
-  const getList = await supabase.from('Joiners').select('*').range(0, 10);
+  const path = e._path;
+
+  // Get query take the GET value from the request
+  const page = Number(getQuery(e).page) || 1;
+  const limit = Number(getQuery(e).limit) || 10;
+
+  // Calculate the range of the query
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;  
+
+  console.log(page, limit)
+  console.log(from, to)
+
+  const getList = await supabase.from('Joiners').select('*').range(from, to);
   const list = getList.data;
 
   return {
