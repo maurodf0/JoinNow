@@ -15,8 +15,13 @@ import Container from '~/components/site/Container.vue';
 
 const users = ref<Array<{ id: number; role: string; created_at: string; name: string }>>([]);
 
-const getData = async () => {
-  const response = await $fetch('/api/data');
+const getData = async (page: number = 1) => {
+  const response = await $fetch('/api/data', {
+    query: {
+      limit: 10,
+      page: page
+    }
+  });
   const data = await response;
   users.value = data.body;
 
@@ -76,9 +81,9 @@ const avatarUrl = 'https://avatars.githubusercontent.com/u/60851419'
   </Container>
 
   <div class="pagination justify-center flex gap-2">
-    <div @click="getData" class="page">1</div>
-    <div @click="getData" class="page">2</div>
-    <div @click="getData" class="page">3</div>
-    <div @click="getData" class="page">4</div>
+    <div @click="getData(1)" class="page">1</div>
+    <div @click="getData(2)" class="page">2</div>
+    <div @click="getData(3)" class="page">3</div>
+    <div @click="getData(4)" class="page">4</div>
   </div>
 </template>
