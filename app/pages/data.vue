@@ -13,11 +13,18 @@ import {
 import AvatarName from '@/components/ui/AvatarName.vue'
 import Container from '~/components/site/Container.vue';
 
+const users = ref<Array<{ id: number; role: string; created_at: string; name: string }>>([]);
+
+const getData = async () => {
   const response = await $fetch('/api/data');
   const data = await response;
-  const avatarUrl = 'https://avatars.githubusercontent.com/u/60851419'
+  users.value = data.body;
 
-  const users = data.body;
+}
+
+
+const avatarUrl = 'https://avatars.githubusercontent.com/u/60851419'
+
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -64,4 +71,11 @@ import Container from '~/components/site/Container.vue';
     </TableBody>
   </Table>
   </Container>
+
+  <div class="pagination justify-center flex gap-2">
+    <div @click="getData" class="page">1</div>
+    <div @click="getData" class="page">2</div>
+    <div @click="getData" class="page">3</div>
+    <div @click="getData" class="page">4</div>
+  </div>
 </template>
