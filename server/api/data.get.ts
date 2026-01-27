@@ -1,7 +1,6 @@
   import { supabase } from '../../utils/supabase'
 
 export default defineEventHandler(async (e) => {
-  const path = e._path;
 
   // Get query take the GET value from the request
   const page = Number(getQuery(e).page) || 1;
