@@ -1,7 +1,8 @@
 <script setup lang="ts">
 
 import { toast } from 'vue-sonner'
-
+const user = useSupabaseUser();
+console.log(user.value);
 interface JoinPerson {
   name: string;
   role: string;
@@ -20,8 +21,9 @@ const joinPerson = async () => {
     const data = await $fetch<JoinResponse>('/api/join', {
       method: 'POST',
       body: {
-        name: 'Salvatore De Falco',
+        name: user.value?.user_metadata?.name || 'Salvatore De Falco',
         role: 'Dirigente Movimento',
+        email: user.value?.email || '',
       } as JoinPerson,
     });
 

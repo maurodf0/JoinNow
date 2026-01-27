@@ -6,10 +6,14 @@ import Input from '~/components/ui/input/Input.vue';
 
 const state = reactive<{
   email: string,
-  password: string
+  password: string,
+  name: string,
+  role: string
 }>({
   email: '',
-  password: ''  
+  password: '' ,
+  name: '',
+  role: ''
 })
 
 const registerUser = async () => {
@@ -19,6 +23,12 @@ const registerUser = async () => {
 const { data, error } = await supabase.auth.signUp({
         email: state.email,
         password: state.password,
+        options: {
+          data: {
+            name: state.name,
+            role: state.role
+          }
+        }
 })
 if (error) {
         toast.error(`Registration failed: ${error.message}`);
@@ -38,6 +48,14 @@ if (error) {
       <h1 class="text-4xl font-bold">Register to JoinNow</h1>
       <p>Registrati con la tua email per continuare</p>
     <form class="mt-4 flex flex-col gap-2" @submit.prevent="registerUser">
+       <div class="form-group">
+        <label for="name">Name:</label>
+        <Input type="text" placeholder="Name" id="name" v-model="state.name" required />
+      </div>
+         <div class="form-group">
+        <label for="Role">Role:</label>
+        <Input type="text" placeholder="Role" id="role" v-model="state.role" required />
+      </div>
       <div class="form-group">
         <label for="email">Email:</label>
         <Input type="email" placeholder="Email" id="email" v-model="state.email" required />
