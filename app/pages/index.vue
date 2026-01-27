@@ -21,8 +21,8 @@ const joinPerson = async () => {
     const data = await $fetch<JoinResponse>('/api/join', {
       method: 'POST',
       body: {
-        name: user.value?.user_metadata?.name || 'Salvatore De Falco',
-        role: user.value?.user_metadata?.role || 'Developer',
+        name: user.value?.user_metadata?.name || '',
+        role: user.value?.user_metadata?.role || '',
         email: user.value?.email || '',
       } as JoinPerson,
     });
