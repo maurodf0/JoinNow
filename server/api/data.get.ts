@@ -10,12 +10,21 @@ export default defineEventHandler(async (e) => {
   const from = (page - 1) * limit;
   const to = from + limit - 1;  
 
-  const getList = await supabase.from('Joiners').select('*').range(from, to);
-  const list = getList.data;
+    const { data, error, count } = await supabase
+    .from('Joiners')
+    .select('*', { count: 'exact' }) 
+    .range(from, to)
+
+  if (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: error.message
+    })
+  }
 
   return {
-    statusCode: 200,
-    body: list
+    body: data,
+    total: count
   };
 });
 

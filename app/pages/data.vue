@@ -14,6 +14,7 @@ import AvatarName from '@/components/ui/AvatarName.vue'
 import Container from '~/components/site/Container.vue';
 
 const users = ref<Array<{ id: number; role: string; created_at: string; name: string }>>([]);
+const totalItems = ref<number>(0);
 
 const getData = async (page: number = 1) => {
   try {
@@ -23,8 +24,10 @@ const getData = async (page: number = 1) => {
       page: page
     }
   });
-  
+
   users.value = data.body;
+  totalItems.value = data.total;
+
 
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -34,6 +37,10 @@ onMounted(async () =>
 await getData()
 );
 
+
+const pages = computed(() => {
+  return Math.ceil(totalItems.value / 10);
+}); 
 
 const avatarUrl = 'https://avatars.githubusercontent.com/u/60851419'
 
@@ -85,9 +92,8 @@ const avatarUrl = 'https://avatars.githubusercontent.com/u/60851419'
   </Container>
 
   <div class="pagination justify-center flex gap-2">
-    <div @click="getData(1)" class="page">1</div>
-    <div @click="getData(2)" class="page">2</div>
-    <div @click="getData(3)" class="page">3</div>
-    <div @click="getData(4)" class="page">4</div>
-  </div>
+  <template v-for="page in pages" :key="page">
+    <div @click="getData(page)" class="page">{{ page }}</div>
+  </template>
+</div>
 </template>
