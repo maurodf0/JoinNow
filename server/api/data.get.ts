@@ -11,9 +11,6 @@ export default defineEventHandler(async (e) => {
   const from = (page - 1) * limit;
   const to = from + limit - 1;  
 
-  console.log(page, limit)
-  console.log(from, to)
-
   const getList = await supabase.from('Joiners').select('*').range(from, to);
   const list = getList.data;
 
