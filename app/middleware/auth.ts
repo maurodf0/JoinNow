@@ -1,3 +1,5 @@
+import { toast } from 'vue-sonner'
+
 export default defineNuxtRouteMiddleware((to) => {
   // Su server useSupabaseUser() può essere ancora null (sessione non pronta),
   // quindi controlliamo solo sul client per evitare redirect errati dopo magic link
@@ -5,6 +7,8 @@ export default defineNuxtRouteMiddleware((to) => {
 
   const user = useSupabaseUser()
   if (to.path === '/data' && (!user.value || user.value.user_metadata?.role !== 'admin')) {
-    return navigateTo('/login')
+    toast.error('Non hai accesso a questa pagina');
+    return navigateTo('/')
+
   }
 })

@@ -8,6 +8,7 @@ const email = computed(() => user.value?.email || 'Guest');
 async function signOut() {
   const supabase = useSupabaseClient()
   const { error } = await supabase.auth.signOut()
+  navigateTo('/login')
 }
 </script>
 
