@@ -3,9 +3,10 @@ import { toast } from 'vue-sonner'
 import Container from '~/components/site/Container.vue'
 
 const supabase = useSupabaseClient()
-const email = ref('')
-
+const email = ref<string>('')
+const loading = ref<boolean>(false)
 const signInWithOtp = async () => {
+  loading.value = true
   if (!email.value) {
     toast.error('Email è richiesta')
     console.error('Email è richiesta')
@@ -27,6 +28,7 @@ const signInWithOtp = async () => {
   if (!error) {
     toast.success('Controlla la tua email per il link di accesso!')
   }
+  loading.value = false
 }
 </script>
 <template>
@@ -44,6 +46,7 @@ const signInWithOtp = async () => {
       />
       <Button @click="signInWithOtp">
         Sign In with E-Mail
+        <Spinner v-if="loading" />
       </Button>
     </div>
   </Container>

@@ -1,12 +1,26 @@
 <script setup lang="ts">
-import { toast } from 'vue-sonner';
-import Container from '~/components/site/Container.vue';
-import Input from '~/components/ui/input/Input.vue';
-import Select from '~/components/ui/select/Select.vue';
+import { toast } from 'vue-sonner'
+import Container from '~/components/site/Container.vue'
+import Input from '~/components/ui/input/Input.vue'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 
 type Role = 'admin' | 'user' | 'developer' | 'worker' | 'other';
 
+const roles = [
+  { value: 'admin', label: 'Admin' },
+  { value: 'user', label: 'User' },
+  { value: 'developer', label: 'Developer' },
+  { value: 'worker', label: 'Worker' },
+  { value: 'other', label: 'Other' }
+]
+const loading = ref<boolean>(false)
 const state = reactive<{
   email: string,
   password: string,
@@ -21,6 +35,7 @@ const state = reactive<{
 
 
 const registerUser = async () => {
+  loading.value = true
   try {
       const supabase = useSupabaseClient()
 
@@ -46,9 +61,11 @@ if (error) {
         toast.error(`Registration failed: ${error.message}`);
       } else {
         toast.success('Registration successful! Please check your email to confirm your account.');
+        loading.value = false
       }
   } catch (err) {
       toast.error('An unexpected error occurred. Please try again later.');
+      loading.value = false
    }
 
 }
@@ -66,12 +83,19 @@ if (error) {
       </div>
          <div class="form-group">
         <label for="Role">Role:</label>
-        <Select  v-model="state.role" required>
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-          <option value="developer">Developer</option>
-          <option value="worker">Worker</option>
-          <option value="other">Other</option>
+        <Select v-model="state.role">
+          <SelectTrigger class="w-full">
+            <SelectValue placeholder="Select a role" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem
+              v-for="r in roles"
+              :key="r.value"
+              :value="r.value"
+            >
+              {{ r.label }}
+            </SelectItem>
+          </SelectContent>
         </Select>
       </div>
       <div class="form-group">
@@ -82,7 +106,7 @@ if (error) {
         <label for="password">Password:</label>
         <Input type="password" id="password" v-model="state.password" required />
       </div>
-      <Button class="mt-4" type="submit">Register</Button>
+      <Button class="mt-4" type="submit">Register <Spinner v-if="loading" /></Button>
     </form>
   </div>
   </Container>  
