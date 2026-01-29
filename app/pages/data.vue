@@ -1,4 +1,9 @@
 <script setup lang="ts">
+
+definePageMeta({
+  middleware: ['auth']
+})
+
 import {
   Table,
   TableBody,
@@ -30,7 +35,14 @@ const getData = async (page: number = 1) => {
   }
 }
 
-onMounted(async () => await getData(1))
+onMounted(async () => {
+  const user = useSupabaseUser()
+  if (!user.value) {
+    await navigateTo('/login')
+    return
+  }
+  await getData(1)
+})
 
 const pages = computed(() => Math.ceil(totalItems.value / 10))
 
@@ -45,6 +57,8 @@ const formatDate = (dateString: string) => {
   const minutes = String(date.getMinutes()).padStart(2, '0')
   return `${day}/${month}/${year} ${hours}:${minutes}`
 }
+
+
 </script>
 
 <template>
