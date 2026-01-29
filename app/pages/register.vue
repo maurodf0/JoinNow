@@ -11,17 +11,26 @@ const state = reactive<{
   email: string,
   password: string,
   name: string,
-  role: string
+  role: Role
 }>({
   email: '',
   password: '' ,
   name: '',
-  role: ''
+  role: 'user' as Role
 })
+
 
 const registerUser = async () => {
   try {
       const supabase = useSupabaseClient()
+
+const isValidRole = (r: string): r is Role =>
+  ['admin', 'user', 'developer', 'worker', 'other'].includes(r)
+
+if (!isValidRole(state.role)) {
+  toast.error('Ruolo non valido')
+  return
+}
 
 const { data, error } = await supabase.auth.signUp({
         email: state.email,
