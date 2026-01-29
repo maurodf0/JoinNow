@@ -2,7 +2,10 @@
 import { toast } from 'vue-sonner';
 import Container from '~/components/site/Container.vue';
 import Input from '~/components/ui/input/Input.vue';
+import Select from '~/components/ui/select/Select.vue';
 
+
+type Role = 'admin' | 'user' | 'developer' | 'worker' | 'other';
 
 const state = reactive<{
   email: string,
@@ -54,7 +57,13 @@ if (error) {
       </div>
          <div class="form-group">
         <label for="Role">Role:</label>
-        <Input type="text" placeholder="Role" id="role" v-model="state.role" required />
+        <Select  v-model="state.role" required>
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+          <option value="developer">Developer</option>
+          <option value="worker">Worker</option>
+          <option value="other">Other</option>
+        </Select>
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
