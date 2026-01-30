@@ -28,7 +28,7 @@ const getData = async (page: number = 1) => {
       query: { limit: 10, page }
     })
     
-    users.value = data.body.reverse();
+    users.value = data.body;
     totalItems.value = data.total
   } catch (error) {
     console.error('Error fetching data:', error)

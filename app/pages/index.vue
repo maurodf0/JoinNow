@@ -38,6 +38,7 @@ const joinPerson = async () => {
 </script>
 
 <template>
+  <Container v-if="user" class="mt-16 !max-w-[880px]">
   <div class="grid place-items-center justify-center min-h-screen">
     <div class="container">
       <Button 
@@ -50,4 +51,13 @@ const joinPerson = async () => {
     </div>
 
   </div>
+</Container>
+
+<Container v-else>
+  <div class="flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-4xl font-bold">Login to JoinNow</h1>
+    <p>Accedi con la tua email per continuare</p>
+    <Button @click="navigateTo('/login')" class="cursor-pointer mt-4">Login</Button>
+  </div>
+</Container>
 </template>

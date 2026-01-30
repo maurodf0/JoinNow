@@ -10,9 +10,10 @@ export default defineEventHandler(async (e) => {
   const from = (page - 1) * limit;
   const to = from + limit - 1;  
 
-    const { data, error, count } = await supabase
+  const { data, error, count } = await supabase
     .from('Joiners')
-    .select('*', { count: 'exact' }) 
+    .select('*', { count: 'exact' })
+    .order('created_at', { ascending: false })
     .range(from, to)
 
   if (error) {
