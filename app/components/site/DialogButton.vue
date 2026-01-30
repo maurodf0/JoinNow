@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+
 
 
 const props = defineProps<{
@@ -36,11 +36,11 @@ const props = defineProps<{
         </DialogHeader>
         <div class="grid gap-4">
           <div class="grid gap-3">
-            <Label for="name-1">Name</Label>
+            <label for="name-1" class="text-sm font-medium leading-none">Name</label>
             <Input id="name-1" name="name" default-value="Pedro Duarte" />
           </div>
           <div class="grid gap-3">
-            <Label for="username-1">Username</Label>
+            <label for="username-1" class="text-sm font-medium leading-none">Username</label>
             <Input id="username-1" name="username" default-value="@peduarte" />
           </div>
         </div>
