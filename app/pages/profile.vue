@@ -3,6 +3,7 @@
 import Container from '~/components/site/Container.vue'
 import AvatarName from '~/components/ui/AvatarName.vue'
 import Button from '~/components/ui/button/Button.vue'
+import DialogButton from '~/components/site/DialogButton.vue'
 
 definePageMeta({
     middleware: ['auth']
@@ -46,6 +47,6 @@ const addAdmin = async () => {
             <Button @click="addAdmin" class="cursor-pointer mt-4">Data</Button>
         </div>
 
-        <Button @click="signOut" class="cursor-pointer mt-4">Logout</Button>
+        <DialogButton title="Add another Admin" description="Add another Admin to the system" buttonText="Add Admin" @click="addAdmin" />
     </Container>
 </template>
