@@ -22,15 +22,11 @@ const roles = [
   { value: 'other', label: 'Other' },
 ]
 
-defineEmits<{
-  (e: 'submit', role: string, name: string): void
-}>()
-
-const onSubmit = (role: string, name: string) => {
-    emit('submit', role, name)
-}
-
 const role = ref<string>('')
+const name = ref<string>('')
+const emit = defineEmits<{
+  (e: 'dialogSubmit', name: string, role: string): void
+}>()
 
 
 const props = defineProps<{
@@ -42,7 +38,7 @@ const props = defineProps<{
 
 <template>
   <Dialog>
-    <form @submit.prevent="onSubmit(role, name)">
+    <form @submit.prevent="emit('dialogSubmit', name, role)">
       <DialogTrigger as-child>
         <Button variant="outline">
           {{ props.buttonText }}
@@ -56,7 +52,7 @@ const props = defineProps<{
         <div class="grid gap-4">
           <div class="grid gap-3">
             <label for="name-1" class="text-sm font-medium leading-none">Name</label>
-            <Input id="name-1" name="name"  />
+            <Input id="name-1" name="name" v-model="name" />
           </div>
           <div class="grid gap-3">
             <label for="username-1" class="text-sm font-medium leading-none">Role</label>
@@ -78,7 +74,7 @@ const props = defineProps<{
               Cancel
             </Button>
           </DialogClose>
-          <Button type="submit">
+          <Button type="submit" @click="emit('dialogSubmit', name, role)">
             Save changes
           </Button>
         </DialogFooter>
