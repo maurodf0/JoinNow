@@ -9,11 +9,26 @@ definePageMeta({
 })
 
 const user = useSupabaseUser()
+const supabase = useSupabaseClient()
 
 async function signOut() {
   const supabase = useSupabaseClient()
   const { error } = await supabase.auth.signOut()
   navigateTo('/login')
+}
+
+
+const addAdmin = async () => {
+   const {data, error} = await supabase.auth.signUp({
+    email: 'admin@example.com',
+    password: 'password',
+    options: {
+      data: {
+        name: 'Another Name',
+        role: 'admin'
+      }
+    }
+   })
 }
 </script>
 
@@ -23,8 +38,13 @@ async function signOut() {
         <p>Welcome {{ user?.user_metadata?.name }}</p>
         <p>Email: {{ user?.email }}</p>
         <p>Role: {{ user?.user_metadata?.role }}</p>
-        <p>Created At: {{ user?.user_metadata?.created_at }}</p>
 
-        <Button class="mt-4" @click="signOut" class="cursor-pointer">Logout</Button>
+        <div v-if="user?.user_metadata?.role === 'admin'" class="mt-4">
+            <h2 class="text-2xl font-bold">Admin</h2>
+            <p>Add another Admin</p>
+            <Button @click="addAdmin" class="cursor-pointer mt-4">Data</Button>
+        </div>
+
+        <Button @click="signOut" class="cursor-pointer mt-4">Logout</Button>
     </Container>
 </template>
