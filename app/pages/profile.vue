@@ -19,19 +19,19 @@ async function signOut() {
 }
 
 //Add another Admin
-// // TODO: Add a form to add another Admin and send him a link to login and confirm his account
-// const addAdmin = async () => {
-//    const {data, error} = await supabase.auth.signUp({
-//     email: 'admin@example.com',
-//     password: 'password',
-//     options: {
-//       data: {
-//         name: 'Another Name',
-//         role: 'admin'
-//       }
-//     }
-//    })
-// }
+// TODO: Add a form to add another Admin and send him a link to login and confirm his account
+const addAdmin = async (name: string, role: string) => {
+   const {data, error} = await supabase.auth.signUp({
+    email: 'admin@example.com',
+    password: 'password',
+    options: {
+      data: {
+        name: name,
+        role: role
+      }
+    }
+   })
+}
 
 const addAdmin = (role: string, name: string) => {
     console.log(role, name)
@@ -54,6 +54,6 @@ const addAdmin = (role: string, name: string) => {
         <DialogButton 
         title="Add another Admin" 
         description="Add another Admin to the system" 
-        buttonText="Add Admin" @dialogSubmit="addAdmin" />
+        buttonText="Add Admin" @dialogSubmit="addAdmin($event)" />
     </Container>
 </template>
