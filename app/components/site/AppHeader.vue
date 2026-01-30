@@ -27,7 +27,12 @@ async function signOut() {
           <NuxtLink @click.prevent="signOut"  class="hover:underline">Logout</NuxtLink>
         </template>
       </div>
-      <AvatarName :name="email" />
+      <template v-if="user">
+        <NuxtLink to="/profile" class="hover:underline">
+          <AvatarName :name="user?.user_metadata?.name" />
+        </NuxtLink>
+      </template>
+    
     </nav>
   </header>
 </template>
