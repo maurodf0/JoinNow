@@ -17,7 +17,8 @@ async function signOut() {
   navigateTo('/login')
 }
 
-
+//Add another Admin
+// TODO: Add a form to add another Admin and send him a link to login and confirm his account
 const addAdmin = async () => {
    const {data, error} = await supabase.auth.signUp({
     email: 'admin@example.com',
