@@ -2,14 +2,7 @@
 import AvatarName from '../ui/AvatarName.vue';
 
 const user = useSupabaseUser();
-
 const email = computed(() => user.value?.email || 'Guest');
-
-async function signOut() {
-  const supabase = useSupabaseClient()
-  const { error } = await supabase.auth.signOut()
-  navigateTo('/login')
-}
 </script>
 
 <template>
@@ -23,9 +16,7 @@ async function signOut() {
           <NuxtLink to="/register" class="hover:underline">Register</NuxtLink>
           <NuxtLink to="/login" class="hover:underline">Login</NuxtLink>
         </template>
-        <template v-else>
-          <NuxtLink @click.prevent="signOut"  class="hover:underline">Logout</NuxtLink>
-        </template>
+       
       </div>
       <template v-if="user">
         <NuxtLink to="/profile" class="hover:underline">
