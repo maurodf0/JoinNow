@@ -69,9 +69,9 @@ const signInWithOtp = async () => {
 <template>
 
   <Container class="mt-16 !max-w-[880px]">
-    <ButtonGroup>
-    <Button @click="showMagicLink = true">Magic Link</Button>
-    <Button @click="showMagicLink = false">Login with Password</Button>
+    <ButtonGroup class="mb-4">
+    <Button :class="{'!bg-white !text-black font-bold': showMagicLink}" variant="outline" @click="showMagicLink = true">Magic Link</Button>
+    <Button :class="{'!bg-white !text-black font-bold': !showMagicLink}" variant="outline" @click="showMagicLink = false">Login with Password</Button>
   </ButtonGroup>
 
   <template v-if="showMagicLink">
