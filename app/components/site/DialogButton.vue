@@ -55,8 +55,8 @@ const props = defineProps<{
             <Input id="name-1" name="name" v-model="name" />
           </div>
           <div class="grid gap-3">
-            <label for="username-1" class="text-sm font-medium leading-none">Role</label>
-            <Select id="username-1" name="username" v-model="role">
+            <label for="role" class="text-sm font-medium leading-none">Role</label>
+            <Select id="role" name="role" v-model="role">
             <SelectTrigger>
               <SelectValue placeholder="Select a role" />
             </SelectTrigger>
