@@ -36,18 +36,19 @@ const props = defineProps<{
   buttonText: string,
   confirmText: string,
   cancelText: string
-  dialogOpen: boolean
 }>()
 
+const open = ref<boolean>(false)
 
 const emitFunction = () => {
   emit('dialogSubmit', name.value, role.value, email.value)
-
+  open.value = false
 }
+
 </script>
 
 <template>
-  <Dialog :open="dialogOpen">
+  <Dialog v-model:open="open">
     <form @submit.prevent="emitFunction">
       <DialogTrigger as-child>
         <Button variant="outline">
