@@ -27,7 +27,7 @@ const loading = ref<boolean>(false)
 
 const addAdmin = async (name: string, role: string, email: string) => {
   loading.value = true
-   const {data, error} = await $fetch('/api/AddAdmin', {
+   const {data, error} = await $fetch('/api/add-admin', {
     method: 'POST',
     body: {
       email: email,
