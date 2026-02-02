@@ -24,15 +24,14 @@ async function signOut() {
 
 
 const loading = ref<boolean>(false)
-
+const dialogOpen = ref<boolean>(false)
 
 const addAdmin = async (name: string, role: string, email: string) => {
   loading.value = true
   const password = Math.random().toString(36).substr(2, 8);
 
-   const {data, error} = await supabase.auth.signUp({
+   const {data, error} = await supabase.auth.inviteUserByEmail({
     email: email,
-    password: password,
     options: {
       data: {
         name: name,
@@ -48,7 +47,7 @@ const addAdmin = async (name: string, role: string, email: string) => {
    if (!error) {
     toast.success('Admin aggiunto con successo!')
     loading.value = false
-    
+    dialogOpen.value = false
    }
 }
 
@@ -70,6 +69,9 @@ const addAdmin = async (name: string, role: string, email: string) => {
         <DialogButton 
         title="Add another Admin" 
         description="Add another Admin to the system" 
-        buttonText="Add Admin" @dialogSubmit="addAdmin" />
+        buttonText="Add Admin" 
+        confirmText="Add Admin"
+        cancelText="Cancel"
+        @dialogSubmit="addAdmin" />
     </Container>
 </template>

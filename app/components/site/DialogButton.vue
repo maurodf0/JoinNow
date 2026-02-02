@@ -36,6 +36,7 @@ const props = defineProps<{
   buttonText: string,
   confirmText: string,
   cancelText: string
+  dialogOpen: boolean
 }>()
 
 
@@ -46,7 +47,7 @@ const emitFunction = () => {
 </script>
 
 <template>
-  <Dialog>
+  <Dialog :open="dialogOpen">
     <form @submit.prevent="emitFunction">
       <DialogTrigger as-child>
         <Button variant="outline">
@@ -88,7 +89,7 @@ const emitFunction = () => {
             </Button>
           </DialogClose>
           <Button type="submit" @click="emitFunction">
-            {{ props.confirmText }}
+            {{ props.buttonText }}
           </Button>
         </DialogFooter>
       </DialogContent>
