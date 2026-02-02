@@ -23,6 +23,10 @@ export default defineNuxtConfig({
      */
     componentDir: '@/components/ui'
   },
+  runtimeConfig: {
+    supabaseUrl: process.env.SUPABASE_URL,
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+  },
   supabase: {
     redirect: false
   },
