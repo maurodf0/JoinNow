@@ -33,13 +33,21 @@ const emit = defineEmits<{
 const props = defineProps<{
   title: string
   description: string
-  buttonText: string
+  buttonText: string,
+  confirmText: string,
+  cancelText: string
 }>()
+
+
+const emitFunction = () => {
+  emit('dialogSubmit', name.value, role.value, email.value)
+
+}
 </script>
 
 <template>
   <Dialog>
-    <form @submit.prevent="emit('dialogSubmit', name, role)">
+    <form @submit.prevent="emitFunction">
       <DialogTrigger as-child>
         <Button variant="outline">
           {{ props.buttonText }}
@@ -76,11 +84,11 @@ const props = defineProps<{
         <DialogFooter>
           <DialogClose as-child>
             <Button variant="outline">
-              Cancel
+              {{ props.cancelText }}
             </Button>
           </DialogClose>
-          <Button type="submit" @click="emit('dialogSubmit', name, role, email)">
-            Save changes
+          <Button type="submit" @click="emitFunction">
+            {{ props.confirmText }}
           </Button>
         </DialogFooter>
       </DialogContent>

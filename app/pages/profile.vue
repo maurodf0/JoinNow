@@ -4,6 +4,7 @@ import Container from '~/components/site/Container.vue'
 import AvatarName from '~/components/ui/AvatarName.vue'
 import Button from '~/components/ui/button/Button.vue'
 import DialogButton from '~/components/site/DialogButton.vue'
+import { toast } from 'vue-sonner'
 
 definePageMeta({
     middleware: ['auth']
@@ -19,11 +20,19 @@ async function signOut() {
 }
 
 //Add another Admin
-// TODO: Add a form to add another Admin and send him a link to login and confirm his account
-const addAdmin = async (name: string, role: string) => {
+
+
+
+const loading = ref<boolean>(false)
+
+
+const addAdmin = async (name: string, role: string, email: string) => {
+  loading.value = true
+  const password = Math.random().toString(36).substr(2, 8);
+
    const {data, error} = await supabase.auth.signUp({
-    email: 'admin@example.com',
-    password: 'password',
+    email: email,
+    password: password,
     options: {
       data: {
         name: name,
@@ -31,6 +40,16 @@ const addAdmin = async (name: string, role: string) => {
       }
     }
    })
+   if (error) {
+    console.error('Errore durante il sign-up:', error.message)
+    toast.error(error.message)
+    return
+   }
+   if (!error) {
+    toast.success('Admin aggiunto con successo!')
+    loading.value = false
+    
+   }
 }
 
 </script>
