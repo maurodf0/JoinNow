@@ -25,11 +25,13 @@ async function signOut() {
 
 const loading = ref<boolean>(false)
 
-
 const addAdmin = async (name: string, role: string, email: string) => {
   loading.value = true
-   const {data, error} = await supabase.auth.inviteUserByEmail({
-    email: email,
+  const password = Math.random().toString(36).substr(2, 8)
+   const {data, error} = await supabase.auth.admin.generateLink({
+  type: 'signup',
+  email: email,
+  password: password,
     options: {
       data: {
         name: name,
