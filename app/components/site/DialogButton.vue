@@ -23,9 +23,10 @@ const roles = [
 ]
 
 const role = ref<string>('')
+const email = ref<string>('')
 const name = ref<string>('')
 const emit = defineEmits<{
-  (e: 'dialogSubmit', name: string, role: string): void
+  (e: 'dialogSubmit', name: string, role: string, email: string): void
 }>()
 
 
@@ -55,6 +56,10 @@ const props = defineProps<{
             <Input id="name-1" name="name" v-model="name" />
           </div>
           <div class="grid gap-3">
+            <label for="email" class="text-sm font-medium leading-none">Email</label>
+            <Input id="email" name="email" v-model="email" />
+          </div>
+          <div class="grid gap-3">
             <label for="role" class="text-sm font-medium leading-none">Role</label>
             <Select id="role" name="role" v-model="role">
             <SelectTrigger>
@@ -74,7 +79,7 @@ const props = defineProps<{
               Cancel
             </Button>
           </DialogClose>
-          <Button type="submit" @click="emit('dialogSubmit', name, role)">
+          <Button type="submit" @click="emit('dialogSubmit', name, role, email)">
             Save changes
           </Button>
         </DialogFooter>
