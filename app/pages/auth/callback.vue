@@ -12,7 +12,7 @@ onMounted(async () => {
     console.error('Auth error:', error)
     await router.replace('/login')
   } else {
-    await router.replace('/dashboard')
+    await router.replace('/')
   }
 })
 </script>
