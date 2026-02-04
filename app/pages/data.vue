@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const user = useSupabaseUser();
-console.log(user.value.user_metadata?.role);
+const userSupa = useSupabaseUser();
 definePageMeta({
   middleware: ['auth']
 })
@@ -75,7 +74,7 @@ const formatDate = (dateString: string) => {
       <TableBody>
         <template v-for="user in users" :key="user.id">
           <TableRow>
-            <template v-if="user.user_metadata?.role == 'admin'">
+            <template v-if="userSupa?.user_metadata?.role == 'admin'">
             <TableCell>
               <Button>Remove</Button>
             </TableCell>
