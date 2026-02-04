@@ -1,9 +1,9 @@
 <script setup lang="ts">
-
+const user = useSupabaseUser();
+console.log(user.value.user_metadata?.role);
 definePageMeta({
   middleware: ['auth']
 })
-
 import {
   Table,
   TableBody,
@@ -75,6 +75,14 @@ const formatDate = (dateString: string) => {
       <TableBody>
         <template v-for="user in users" :key="user.id">
           <TableRow>
+            <template v-if="user.user_metadata?.role == 'admin'">
+            <TableCell>
+              <Button>Remove</Button>
+            </TableCell>
+          </template>
+          <template v-else>
+            ciao
+          </template>
             <TableCell class="font-medium">{{ user.role }}</TableCell>
             <TableCell>{{ formatDate(user.created_at) }}</TableCell>
             <TableCell>
