@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 const redirectInfo = useSupabaseCookieRedirect()
 

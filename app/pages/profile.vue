@@ -35,6 +35,7 @@ const addAdmin = async (name: string, role: string, email: string) => {
       role: role
     }
    })
+   
    if (error) {
     console.error('Errore durante il sign-up:', error.message)
     toast.error(error.message)

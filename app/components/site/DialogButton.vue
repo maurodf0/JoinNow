@@ -42,7 +42,11 @@ const open = ref<boolean>(false)
 
 const emitFunction = () => {
   emit('dialogSubmit', name.value, role.value, email.value)
+  role.value = '';
+  email.value = '';
+  name.value = '';
   open.value = false
+
 }
 
 </script>
