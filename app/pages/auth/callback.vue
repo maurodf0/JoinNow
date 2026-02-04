@@ -1,9 +1,8 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient()
 const router = useRouter()
-const route = useRoute()
 
-// ⚠️ deve girare SOLO lato client
+
 onMounted(async () => {
   const { error } = await supabase.auth.exchangeCodeForSession(
     window.location.href
