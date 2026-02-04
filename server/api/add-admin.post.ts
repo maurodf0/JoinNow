@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js'
-import generator from 'generate-password'
 import { serverSupabaseUser } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
@@ -24,29 +23,20 @@ export default defineEventHandler(async (event) => {
       config.supabaseServiceRoleKey
     )
 
-    const password = generator.generate({
-      length: 14,
-      numbers: true,
-      symbols: true,
-      uppercase: true,
-      lowercase: true,
-      strict: true,
-    })
-
-    const { data, error } = await supabase.auth.admin.generateLink({
-      type: 'signup',
-      email: email,
-      password,
-      options: {
+    const { data, error } = await supabase.auth.admin.inviteUserByEmail(
+      email,
+      {
         data: {
-          name: name,
-          role: role,
+          name,
+          role,
         },
-      },
-    })
+      }
+    )
+    
 
     if (error) {
       throw error
+
     }
 
     return { success: true }
