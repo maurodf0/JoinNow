@@ -20,6 +20,7 @@ import { toast } from 'vue-sonner';
 const users = ref<Array<{ id: number; role: string; created_at: string; name: string }>>([])
 const totalItems = ref<number>(0)
 const currentPage = ref<number>(1)
+const deletingIds = ref<Set<number>>(new Set())
 
 const getData = async (page: number = 1) => {
   currentPage.value = page
@@ -58,20 +59,24 @@ const formatDate = (dateString: string) => {
   return `${day}/${month}/${year} ${hours}:${minutes}`
 }
 
-const removeUser = async(id: number) => {
+const removeUser = async (id: number) => {
+  if (deletingIds.value.has(id)) return
+  
+  const toastId = toast.loading('Removing user...')
+  deletingIds.value.add(id)
+  
   try {
     await $fetch('/api/data', {
       method: 'DELETE',
       body: { id }
     })
     await getData(currentPage.value)
-    if(!error){
-      toast.success('User removed successfully')
-    }else{
-      toast.error('Error removing user')
-    }
-  } catch (error) {
+    toast.success('User removed successfully', { id: toastId })
+  } catch (error: any) {
     console.error('Error removing user:', error)
+    toast.error(error.statusMessage || 'Error removing user', { id: toastId })
+  } finally {
+    deletingIds.value.delete(id)
   }
 }
 
@@ -83,39 +88,42 @@ const removeUser = async(id: number) => {
       <TableCaption>Logged in Users</TableCaption>
       <TableHeader>
         <TableRow>
-            <template v-if="userSupa?.user_metadata?.role == 'admin'">
-            <TableHead>Actions</TableHead>
-          </template>
+          <TableHead v-if="userSupa?.user_metadata?.role == 'admin'" class="w-[100px]">Actions</TableHead>
           <TableHead>Ruolo</TableHead>
           <TableHead>Time</TableHead>
           <TableHead>Name</TableHead>
-            <template v-if="userSupa?.user_metadata?.role == 'admin'">
-            <TableHead>More</TableHead>
-          </template>
+          <TableHead class="text-right">More</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         <template v-for="user in users" :key="user.id">
     
           <TableRow>
-            <template v-if="userSupa?.user_metadata?.role == 'admin'">
-            <TableCell>
-              <Button variant="destructive" size="sm" @click="removeUser(user.id)">Remove</Button>
+            <TableCell v-if="userSupa?.user_metadata?.role == 'admin'">
+              <Button 
+                variant="destructive" 
+                size="sm" 
+                :disabled="deletingIds.has(user.id)"
+                @click="removeUser(user.id)"
+              >
+                {{ deletingIds.has(user.id) ? 'Removing...' : 'Remove' }}
+              </Button>
             </TableCell>
-          </template>
    
             <TableCell class="font-medium">{{ user.role }}</TableCell>
             <TableCell>{{ formatDate(user.created_at) }}</TableCell>
             <TableCell>
-                <ClientOnly>
-                    <AvatarName :name="user.name" :url="avatarUrl" />
-                </ClientOnly>
+              <ClientOnly>
+                <AvatarName :name="user.name" :url="avatarUrl" />
+              </ClientOnly>
             </TableCell>
      
-        <TableCell>
-            <NuxtLink :to="`/data/${user.id}`"><Button size="sm">More</Button></NuxtLink>
-        </TableCell>
-        </TableRow>
+            <TableCell class="text-right">
+              <NuxtLink :to="`/data/${user.id}`">
+                <Button size="sm" variant="outline">More</Button>
+              </NuxtLink>
+            </TableCell>
+          </TableRow>
         </template>
       </TableBody>
     </Table>

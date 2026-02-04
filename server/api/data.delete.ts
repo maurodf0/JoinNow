@@ -8,7 +8,10 @@ export default defineEventHandler(async (event) => {
         .delete()
         .eq('id', id)
     if (error) {
-        return error
+        throw createError({
+            statusCode: 500,
+            statusMessage: error.message
+        })
     }
     return data
 })
