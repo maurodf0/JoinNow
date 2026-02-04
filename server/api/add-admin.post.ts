@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 403, statusMessage: 'Not admin' })
     }
 
-    const {name, role, email} = await readBody(event)
+    const { name, role, email } = await readBody(event)
 
     const config = useRuntimeConfig()
 
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
       redirectTo: 'http://localhost:3000/confirm',
       data: { name, role },
     })
-    
+
 
     if (error) {
       throw error

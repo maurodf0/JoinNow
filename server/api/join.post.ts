@@ -1,16 +1,17 @@
-  import { supabase } from '../../utils/supabase'
+import { serverSupabaseClient } from '#supabase/server'
 
-export default defineEventHandler(async (e) => {
-  try {  
-    const body = await readBody(e);
+export default defineEventHandler(async (event) => {
+  try {
+    const supabase = await serverSupabaseClient(event)
+    const body = await readBody(event);
     const { name, role } = body;
     console.log('name:', name, 'role:', role);
-    const { data, error } = await supabase.from('Joiners').insert({ name, role });
+    const { data, error } = await supabase.from('Joiners').insert({ name, role } as any);
     if (error) {
       return {
         statusCode: 500,
         message: error.message
-      };  
+      };
     }
 
     return {
@@ -22,7 +23,7 @@ export default defineEventHandler(async (e) => {
     return {
       statusCode: 500,
       message: (error as any).message
-    };  
+    };
   }
 });
 

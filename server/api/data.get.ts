@@ -1,14 +1,15 @@
-  import { supabase } from '../../utils/supabase'
+import { serverSupabaseClient } from '#supabase/server'
 
-export default defineEventHandler(async (e) => {
+export default defineEventHandler(async (event) => {
+  const supabase = await serverSupabaseClient(event)
 
   // Get query take the GET value from the request
-  const page = Number(getQuery(e).page) || 1;
-  const limit = Number(getQuery(e).limit) || 10;
+  const page = Number(getQuery(event).page) || 1;
+  const limit = Number(getQuery(event).limit) || 10;
 
   // Calculate the range of the query
   const from = (page - 1) * limit;
-  const to = from + limit - 1;  
+  const to = from + limit - 1;
 
   const { data, error, count } = await supabase
     .from('Joiners')
