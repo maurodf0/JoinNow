@@ -26,6 +26,9 @@ export default defineEventHandler(async (event) => {
     const { data, error } = await supabase.auth.admin.inviteUserByEmail(
       email,
       {
+        options: {
+          emailRedirectTo: 'http://localhost:3000/auth/callback',
+        },
         data: {
           name,
           role,
