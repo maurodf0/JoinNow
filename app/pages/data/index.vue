@@ -83,27 +83,39 @@ const removeUser = async(id: number) => {
       <TableCaption>Logged in Users</TableCaption>
       <TableHeader>
         <TableRow>
+            <template v-if="userSupa?.user_metadata?.role == 'admin'">
+            <TableHead>Actions</TableHead>
+          </template>
           <TableHead>Ruolo</TableHead>
           <TableHead>Time</TableHead>
           <TableHead>Name</TableHead>
+            <template v-if="userSupa?.user_metadata?.role == 'admin'">
+            <TableHead>More</TableHead>
+          </template>
         </TableRow>
       </TableHeader>
       <TableBody>
         <template v-for="user in users" :key="user.id">
+    
           <TableRow>
             <template v-if="userSupa?.user_metadata?.role == 'admin'">
             <TableCell>
-              <Button @click="removeUser(user.id)">Remove</Button>
+              <Button variant="destructive" size="sm" @click="removeUser(user.id)">Remove</Button>
             </TableCell>
           </template>
+   
             <TableCell class="font-medium">{{ user.role }}</TableCell>
             <TableCell>{{ formatDate(user.created_at) }}</TableCell>
             <TableCell>
-              <ClientOnly>
-                <AvatarName :name="user.name" :url="avatarUrl" />
-              </ClientOnly>
+                <ClientOnly>
+                    <AvatarName :name="user.name" :url="avatarUrl" />
+                </ClientOnly>
             </TableCell>
-          </TableRow>
+     
+        <TableCell>
+            <NuxtLink :to="`/data/${user.id}`"><Button size="sm">More</Button></NuxtLink>
+        </TableCell>
+        </TableRow>
         </template>
       </TableBody>
     </Table>
