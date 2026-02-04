@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/table'
 import AvatarName from '@/components/ui/AvatarName.vue'
 import Container from '~/components/site/Container.vue'
+import { toast } from 'vue-sonner';
 
 const users = ref<Array<{ id: number; role: string; created_at: string; name: string }>>([])
 const totalItems = ref<number>(0)
@@ -57,6 +58,22 @@ const formatDate = (dateString: string) => {
   return `${day}/${month}/${year} ${hours}:${minutes}`
 }
 
+const removeUser = async(id: number) => {
+  try {
+    await $fetch('/api/data', {
+      method: 'DELETE',
+      body: { id }
+    })
+    await getData(currentPage.value)
+    if(!error){
+      toast.success('User removed successfully')
+    }else{
+      toast.error('Error removing user')
+    }
+  } catch (error) {
+    console.error('Error removing user:', error)
+  }
+}
 
 </script>
 
@@ -76,11 +93,8 @@ const formatDate = (dateString: string) => {
           <TableRow>
             <template v-if="userSupa?.user_metadata?.role == 'admin'">
             <TableCell>
-              <Button>Remove</Button>
+              <Button @click="removeUser(user.id)">Remove</Button>
             </TableCell>
-          </template>
-          <template v-else>
-            ciao
           </template>
             <TableCell class="font-medium">{{ user.role }}</TableCell>
             <TableCell>{{ formatDate(user.created_at) }}</TableCell>
