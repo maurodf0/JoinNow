@@ -1,7 +1,9 @@
 import { serverSupabaseClient } from '#supabase/server'
+import { serverSupabaseUser } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
   const supabase = await serverSupabaseClient(event)
+  const user = await serverSupabaseUser(event);
 
   // Get query take the GET value from the request
   const page = Number(getQuery(event).page) || 1;
@@ -11,6 +13,7 @@ export default defineEventHandler(async (event) => {
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
+  if(user.user_metadata.role !== 'admin') return;
   const { data, error, count } = await supabase
     .from('Joiners')
     .select('*', { count: 'exact' })
