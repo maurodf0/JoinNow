@@ -13,11 +13,17 @@ export default defineEventHandler(async (event) => {
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
-  if(user.user_metadata.role !== 'admin') return;
+  if (user.user_metadata.role !== 'admin') return;
+
+  const targetId = event.context.params?.id;
+  if (!targetId) {
+    return { body: [], total: 0 };
+  }
+
   const { data, error, count } = await supabase
     .from('Joiners')
-    
     .select('*', { count: 'exact' })
+    .eq('user_id', targetId)
     .order('created_at', { ascending: false })
     .range(from, to)
 

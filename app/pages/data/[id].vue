@@ -22,7 +22,7 @@ import { toast } from 'vue-sonner';
 const route = useRoute()
     const id = route.params.id
 
-const users = ref<Array<{ id: number; role: string; created_at: string; name: string }>>([])
+const users = ref<Array<{ id: number; role: string; created_at: string; name: string; user_id?: string }>>([])
 const totalItems = ref<number>(0)
 const currentPage = ref<number>(1)
 const deletingIds = ref<Set<number>>(new Set())
@@ -30,7 +30,7 @@ const deletingIds = ref<Set<number>>(new Set())
 const getData = async (page: number = 1) => {
   currentPage.value = page
   try {
-    const data = await $fetch('/api/data', {
+    const data = await $fetch(`/api/data/${id}`, {
       query: { limit: 10, page }
     })
     
@@ -90,7 +90,14 @@ const removeUser = async (id: number) => {
 <template>
   <Container>
     <Table>
-      <TableCaption>Logged in Users</TableCaption>
+      <TableCaption>
+        <div class="flex items-center justify-between px-4">
+          <span>Records for User: {{ id }}</span>
+          <NuxtLink to="/data">
+            <Button size="sm" variant="outline">Back to All</Button>
+          </NuxtLink>
+        </div>
+      </TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead v-if="userSupa?.user_metadata?.role == 'admin'" class="w-[100px]">Actions</TableHead>

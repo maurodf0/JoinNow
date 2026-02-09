@@ -17,7 +17,7 @@ import AvatarName from '@/components/ui/AvatarName.vue'
 import Container from '~/components/site/Container.vue'
 import { toast } from 'vue-sonner';
 
-const users = ref<Array<{ id: number; role: string; created_at: string; name: string }>>([])
+const users = ref<Array<{ id: number; role: string; created_at: string; name: string; user_id?: string }>>([])
 const totalItems = ref<number>(0)
 const currentPage = ref<number>(1)
 const deletingIds = ref<Set<number>>(new Set())
@@ -25,7 +25,7 @@ const deletingIds = ref<Set<number>>(new Set())
 const getData = async (page: number = 1) => {
   currentPage.value = page
   try {
-    const data = await $fetch('/api/data', {
+    const data = await $fetch('/api/data/data', {
       query: { limit: 10, page }
     })
     
@@ -119,7 +119,7 @@ const removeUser = async (id: number) => {
             </TableCell>
      
             <TableCell class="text-right">
-              <NuxtLink :to="`/data/${user.id}`">
+              <NuxtLink :to="`/data/${user.user_id || user.id}`">
                 <Button size="sm" variant="outline">More</Button>
               </NuxtLink>
             </TableCell>
