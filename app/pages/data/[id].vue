@@ -18,6 +18,15 @@ import AvatarName from '@/components/ui/AvatarName.vue'
 import Container from '~/components/site/Container.vue'
 import { toast } from 'vue-sonner';
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+
 
 const route = useRoute()
     const id = route.params.id
@@ -89,6 +98,19 @@ const removeUser = async (id: number) => {
 
 <template>
   <Container>
+
+<div class="grid grid-cols-4 mb-4">
+<Card>
+  <CardHeader>
+    <CardTitle>N° Presenze Totali</CardTitle>
+    <CardDescription>Numero di presenze totali per utente {{ userSupa?.user_metadata?.name }}</CardDescription>
+  </CardHeader>
+  <CardContent class="text-2xl font-bold">
+   {{ users.length }}
+  </CardContent>
+</Card>
+</div> 
+
     <Table>
       <TableCaption>
         <div class="flex items-center justify-between px-4">
@@ -104,7 +126,7 @@ const removeUser = async (id: number) => {
           <TableHead>Ruolo</TableHead>
           <TableHead>Time</TableHead>
           <TableHead>Name</TableHead>
-          <TableHead class="text-right">More</TableHead>
+     
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -129,12 +151,7 @@ const removeUser = async (id: number) => {
                 <AvatarName :name="user.name" :url="avatarUrl" />
               </ClientOnly>
             </TableCell>
-     
-            <TableCell class="text-right">
-              <NuxtLink :to="`/data/${user.id}`">
-                <Button size="sm" variant="outline">More</Button>
-              </NuxtLink>
-            </TableCell>
+
           </TableRow>
         </template>
       </TableBody>

@@ -92,6 +92,7 @@ const removeUser = async (id: number) => {
           <TableHead>Ruolo</TableHead>
           <TableHead>Time</TableHead>
           <TableHead>Name</TableHead>
+          <TableHead class="text-right">More</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -117,7 +118,11 @@ const removeUser = async (id: number) => {
               </ClientOnly>
             </TableCell>
      
-
+            <TableCell class="text-right">
+              <NuxtLink :to="`/data/${user.user_id}`">
+                <Button size="sm" variant="outline">More</Button>
+              </NuxtLink>
+            </TableCell>
           </TableRow>
         </template>
       </TableBody>
