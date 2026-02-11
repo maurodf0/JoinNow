@@ -59,11 +59,9 @@ const addAdmin = async (name: string, role: string, email: string) => {
         <Button class="mt-4" @click="signOut">Log Out</Button>
 
         <div v-if="user?.user_metadata?.role === 'admin'" class="mt-4">
-            <h2 class="text-2xl font-bold">Admin</h2>
+            <h2 class="text-2xl font-bold mb-4">Admin</h2>
 
-                    <DialogButton 
-    
-          class="mt-4"
+        <DialogButton 
         title="Add another Admin" 
         description="Add another Admin to the system" 
         buttonText="Add Admin" 
@@ -73,7 +71,7 @@ const addAdmin = async (name: string, role: string, email: string) => {
             
         </div>
 
-        
+
 
 
     </Container>
