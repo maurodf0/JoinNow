@@ -29,9 +29,9 @@ import {
 
 
 const route = useRoute()
-    const id = route.params.id
+const id = route.params.id
 
-const users = ref<Array<{ id: number; role: string; created_at: string; name: string; user_id?: string }>>([])
+const user = ref<Array<{ id: number; role: string; created_at: string; name: string; user_id?: string }>>([])
 const totalItems = ref<number>(0)
 const currentPage = ref<number>(1)
 const deletingIds = ref<Set<number>>(new Set())
@@ -43,7 +43,8 @@ const getData = async (page: number = 1) => {
       query: { limit: 10, page }
     })
     
-    users.value = data.body;
+    user.value = data.body;
+    console.log(user.value);
     totalItems.value = data.total
   } catch (error) {
     console.error('Error fetching data:', error)
@@ -103,10 +104,10 @@ const removeUser = async (id: number) => {
 <Card>
   <CardHeader>
     <CardTitle>N° Presenze Totali</CardTitle>
-    <CardDescription>Numero di presenze totali per utente {{ userSupa?.user_metadata?.name }}</CardDescription>
+    <CardDescription>Numero di presenze totali per utente {{ user[0]?.name }}</CardDescription>
   </CardHeader>
   <CardContent class="text-2xl font-bold">
-   {{ users.length }}
+   {{ user.length }}
   </CardContent>
 </Card>
 </div> 
@@ -130,25 +131,25 @@ const removeUser = async (id: number) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <template v-for="user in users" :key="user.id">
+        <template v-for="u in user" :key="user.id">
     
           <TableRow>
             <TableCell v-if="userSupa?.user_metadata?.role == 'admin'">
               <Button 
                 variant="destructive" 
                 size="sm" 
-                :disabled="deletingIds.has(user.id)"
+                :disabled="deletingIds.has(u.id)"
                 @click="removeUser(user.id)"
               >
-                {{ deletingIds.has(user.id) ? 'Removing...' : 'Remove' }}
+                {{ deletingIds.has(u.id) ? 'Removing...' : 'Remove' }}
               </Button>
             </TableCell>
    
-            <TableCell class="font-medium">{{ user.role }}</TableCell>
-            <TableCell>{{ formatDate(user.created_at) }}</TableCell>
+            <TableCell class="font-medium">{{ u.role }}</TableCell>
+            <TableCell>{{ formatDate(u.created_at) }}</TableCell>
             <TableCell>
               <ClientOnly>
-                <AvatarName :name="user.name" :url="avatarUrl" />
+                <AvatarName :name="u.name" :url="avatarUrl" />
               </ClientOnly>
             </TableCell>
 
