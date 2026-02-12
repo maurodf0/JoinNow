@@ -81,8 +81,8 @@ const removeUser = async (id: number) => {
   deletingIds.value.add(id)
   
   try {
-    await $fetch(`/api/data/${id}`, {
-      method: 'DELETE',
+    await $fetch(`/api/data/data`, {
+      method: 'delete',
       body: { id }
     })
     await getData(currentPage.value)
