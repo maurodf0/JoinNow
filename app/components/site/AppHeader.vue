@@ -3,6 +3,8 @@ import AvatarName from '../ui/AvatarName.vue';
 
 const user = useSupabaseUser();
 const email = computed(() => user.value?.email || 'Guest');
+
+console.log(user);
 </script>
 
 <template>
@@ -20,7 +22,7 @@ const email = computed(() => user.value?.email || 'Guest');
       </div>
       <template v-if="user">
         <NuxtLink to="/profile" class="hover:underline">
-          <AvatarName :name="user?.user_metadata?.name" />
+          <AvatarName :name="user?.user_metadata?.name" :url="user?.user_metadata?.avatar_url" />
         </NuxtLink>
       </template>
     

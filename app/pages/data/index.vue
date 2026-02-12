@@ -114,7 +114,7 @@ const removeUser = async (id: number) => {
             <TableCell>{{ formatDate(user.created_at) }}</TableCell>
             <TableCell>
               <ClientOnly>
-                <AvatarName :name="user.name" :url="avatarUrl" />
+                <AvatarName :name="user.name" :url="user.user_metadata?.avatar_url" />
               </ClientOnly>
             </TableCell>
      

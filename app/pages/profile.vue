@@ -94,6 +94,9 @@ const uploadAvatar = async () => {
 
     if (updateError) throw updateError
 
+    // 4. Force refresh the session to update the user object locally
+    await supabase.auth.refreshSession()
+
     toast.success('Avatar aggiornato con successo!')
     avatarFile.value = null
   } catch (error: any) {
